@@ -1,28 +1,36 @@
 .App {
-  text-align: center;
-  font-family: 'Neucha', cursive;
-  color: navy;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
-h1{
-  font-family: 'Creepster', cursive;
-}
+
 
 .profpic{
-  height:150px ;
-  width: 150px;
+  height:500px ;
+  width: 340px;
   object-fit:cover;
-  object-position: top;
-  border-radius: 50px;
-  box-shadow: 8px 7px 7px 0px rgba(113,135,244,0.75);
 
 }
-.profpic:hover{
- transition-delay: 2s;
-}
-body{
-  background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-margin: 100px;
-}
+/* body{
+    background: linear-gradient(to right, #b2fefa, #0ed2f7);
+  margin: 100px;
+} */
 .movies{
-  display: table-cell;
+  width: 340px;
 }
+.counter-container{
+  display: flex;
+  gap: 10px;
+}
+
+.specs{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hideButton{
+  
+}
+

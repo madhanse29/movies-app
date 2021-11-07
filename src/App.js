@@ -1,7 +1,10 @@
+import { getByPlaceholderText } from '@testing-library/react';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
   const names=[
+    
  {name: "The Godfather",
   pic:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvhBjZEsw78Uakd3XwKXs-16xmFpTPvCAFQ&usqp=CAU",
  rating:"9.2/10" ,summary:"The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son."},
@@ -24,19 +27,46 @@ function App() {
 
   return (
     <div className="App">
-     {names.map((nm)=>(<Msg name={nm.name} pic={nm.pic} rating={nm.rating} summary={nm.summary}/>))}
+     {names.map((nm)=>(<Msg name={nm.name}
+      pic={nm.pic} rating={nm.rating} summary={nm.summary}/>))}
     </div>
   );
 }
+function Counter(){
+  // let like=10;
+  //const[state,setState]=useState(Initial value);
+  const[like,setLike]=useState(0);
+  const[unlike,setUnlike]=useState(0);
+  return(
+    <div className="counter-container">
+      <button className="likes" onClick={()=>{
+        setLike(like+1)
+      }}>👍{like}</button>
+      <button className="likes" onClick={()=>{
+        setUnlike(unlike-1)
+      }}>👎{unlike}</button>
+      
+    </div>
+  )
+}
 
 function Msg({name,pic,rating,summary}) {
-  // const name ="mad"
+
+  const[show ,setShow]= useState(true)
+  const styles={ color : rating < 9 ? "crimson" : "green" , fontWeight: "bold" ,};
+  const summaryStyles ={
+   display: show ? "block" : "none",
+  }
   return(
-    <div className="movies">
+    <div className="movies ">
       <img className="profpic" src={pic} alt={name}/>
-      <h1 className="head">{name}</h1>
-      <h3>IMDb rating:{rating}</h3>
-      <p>{summary}</p>
+      <div className="specs">
+      <h3 className="head">{name}</h3>
+      <p className="movie-rating" style={styles}>⭐:{rating}</p>
+      </div>
+      <button onClick={()=>setShow(!show)} className="hideButton">hide</button>
+      <p style={summaryStyles} className = "summary">{summary}</p>
+      <Counter/>
     </div>
   )
   
