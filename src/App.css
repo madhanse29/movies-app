@@ -19,6 +19,7 @@
 .movies{
   width: 340px;
 }
+<<<<<<< HEAD
 .counter-container{
   display: flex;
   gap: 10px;
@@ -30,7 +31,9 @@
   justify-content: space-between;
 }
 
-.hideButton{
-  
-}
 
+=======
+.movies{
+  display: table-cell;
+}
+>>>>>>> b9e9532c2e24f2398a288f5d23016e690b6b60ca
