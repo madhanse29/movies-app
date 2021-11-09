@@ -1,9 +1,12 @@
-import { getByPlaceholderText } from '@testing-library/react';
+//import { getByPlaceholderText } from '@testing-library/react';
 import { useState } from 'react';
 import './App.css';
+import {Counter } from "./counter"
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 function App() {
-  const names=[
+  const movies=[
     
  {name: "The Godfather",
   pic:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvhBjZEsw78Uakd3XwKXs-16xmFpTPvCAFQ&usqp=CAU",
@@ -25,51 +28,90 @@ function App() {
  rating:8.4 ,summary:"A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future."},
  ]
 
-  return (
+  return ( 
+  
     <div className="App">
-     {names.map((nm)=>(<Msg name={nm.name}
+       <div className ="moviesadd">
+    <MoviesAdd />
+    </div>
+    <div className="App1">
+     {movies.map((nm)=>(<Msg name={nm.name}
       pic={nm.pic} rating={nm.rating} summary={nm.summary}/>))}
+   <AddColor />
+   </div>
     </div>
   );
-}
-function Counter(){
-  // let like=10;
-  //const[state,setState]=useState(Initial value);
-  const[like,setLike]=useState(0);
-  const[unlike,setUnlike]=useState(0);
-  return(
-    <div className="counter-container">
-      <button className="likes" onClick={()=>{
-        setLike(like+1)
-      }}>👍{like}</button>
-      <button className="likes" onClick={()=>{
-        setUnlike(unlike-1)
-      }}>👎{unlike}</button>
-      
-    </div>
-  )
 }
 
 function Msg({name,pic,rating,summary}) {
 
   const[show ,setShow]= useState(true)
+  //conditional styling
   const styles={ color : rating < 8.5 ? "crimson" : "green" , fontWeight: "bold" ,};
   const summaryStyles ={
    display: show ? "block" : "none",
   }
   return(
+  
     <div className="movies ">
+      
       <img className="profpic" src={pic} alt={name}/>
       <div className="specs">
       <h3 className="head">{name}</h3>
       <p className="movie-rating" style={styles}>⭐:{rating}</p>
       </div>
-      <button onClick={()=>setShow(!show)} className="hideButton">hide</button>
+      <button onClick={()=>setShow(!show)} className="hideButton">{show ? "HIde" : "show"}</button>
       <p style={summaryStyles} className = "summary">{summary}</p>
       <Counter/>
+     
     </div>
   )
   
 }
+
+function AddColor() {
+  const [color,setColor] = useState("red");
+const styles ={ backgroundColor:color}
+//const colors = [
+const[colors,setColors] = useState(["teal","orange"]);
+  return(
+    <div className="color-list">
+   <TextField value={color}
+      onChange={(event)=>setColor(event.target.value)}
+       style={styles}  label="enter a color" variant="standard" />
+   <Button onClick={()=> setColors([...colors,color])} variant="outlined">AddColor</Button>
+
+   {colors.map((clr,index)=>(
+     <ColorBox key={index} color={clr}/>
+   ))}
+    </div>
+  )
+  
+}
+
+function ColorBox({ color }){
+  const styles = 
+  {backgroundColor: color,height:"25px",width:"200px" , marginTop:"10px"}
+return(
+  <div style={styles}></div>
+)
+}
+
+function MoviesAdd(){
+  const [name,setName] = useState("")
+  return(
+    <div>
+      <TextField
+       onChange={(event)=>setName(event.target.value)} label="name" variant="standard" />
+      <TextField label="poster" variant="standard" />
+      <TextField label="rating" variant="standard" />
+      <TextField label="summary" variant="standard" />
+    <button onClick={()=> setName([...name,name])}>ADD</button>
+    
+    </div>
+  )
+}
+
+
 
 export default App;
