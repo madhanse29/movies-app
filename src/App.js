@@ -1,12 +1,19 @@
-//import { getByPlaceholderText } from '@testing-library/react';
 import { useState } from 'react';
+import { Switch, Route, Link } from "react-router-dom";
 import './App.css';
 import {Counter } from "./counter"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+
 
 function App() {
-  const movies=[
+  
+  const INTIAL_MOVIES=[
     
  {name: "The Godfather",
   pic:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvhBjZEsw78Uakd3XwKXs-16xmFpTPvCAFQ&usqp=CAU",
@@ -28,19 +35,69 @@ function App() {
  rating:8.4 ,summary:"A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future."},
  ]
 
+
+
+const[movies,setMovies]=useState(INTIAL_MOVIES)
+
   return ( 
-  
+    
     <div className="App">
-       <div className ="moviesadd">
-    <MoviesAdd />
-    </div>
-    <div className="App1">
+      <nav>
+<Link to="/">Home</Link>
+<Link to= "/movies">Movies</Link>
+<Link to= "/addmovies">Addmovies</Link>
+<Link to= "/colorgame">Color games</Link>
+</nav>
+<Switch>
+  <Route path="/movies">
+  <div className="App1">
      {movies.map((nm)=>(<Msg name={nm.name}
       pic={nm.pic} rating={nm.rating} summary={nm.summary}/>))}
-   <AddColor />
+   {/* <AddColor /> */}
    </div>
-    </div>
+  </Route>
+  <Route path="/addmovies">
+  <AddMovie movies={movies} setMovies={setMovies}/>
+  </Route>
+  <Route path="/colorgame">
+    <AddColor/>
+  </Route>
+  <Route path="/">Welcome </Route>
+  </Switch>
+   </div>
+   
+    
   );
+}
+
+function AddMovie({movies,setMovies}){
+  const[name,setName]=useState("")
+const[pic,setPic]=useState("")
+const[rating,setRating]=useState("")
+const[summary,setSummary]=useState("")
+
+const addMovie=()=>{
+  console.log("adiing",name,pic,rating,summary);
+  const newMovie = {name,pic,rating,summary}
+  console.log(newMovie);
+  // copy movie list & then add new movie
+  setMovies([...movies,newMovie]) 
+
+}
+  return(
+  <div className="Addmovies">
+    <input value={name}
+      onChange={(event)=>setName(event.target.value)}
+       placeholder="enter movie name"/>
+    <input value={pic}
+      onChange={(event)=>setPic(event.target.value)} placeholder="enter movie poster"/>
+    <input value={rating}
+      onChange={(event)=>setRating(event.target.value)} placeholder="enter movie rating"/>
+    <input value={summary}
+      onChange={(event)=>setSummary(event.target.value)} placeholder="enter movie summary"/>
+    <button onClick={addMovie}>add movie</button>
+    </div>
+  )
 }
 
 function Msg({name,pic,rating,summary}) {
@@ -60,7 +117,10 @@ function Msg({name,pic,rating,summary}) {
       <h3 className="head">{name}</h3>
       <p className="movie-rating" style={styles}>⭐:{rating}</p>
       </div>
-      <button onClick={()=>setShow(!show)} className="hideButton">{show ? "HIde" : "show"}</button>
+      <IconButton 
+      onClick={()=>setShow(!show)} className="hideButton" aria-label="delete">
+ {show ? <ExpandLessIcon /> : <ExpandMoreIcon />} 
+  </IconButton>
       <p style={summaryStyles} className = "summary">{summary}</p>
       <Counter/>
      
@@ -78,7 +138,8 @@ const[colors,setColors] = useState(["teal","orange"]);
     <div className="color-list">
    <TextField value={color}
       onChange={(event)=>setColor(event.target.value)}
-       style={styles}  label="enter a color" variant="standard" />
+      style={styles}  label="enter a color" variant="standard" />
+  {/* copy the color list & then add new */}
    <Button onClick={()=> setColors([...colors,color])} variant="outlined">AddColor</Button>
 
    {colors.map((clr,index)=>(
@@ -97,20 +158,6 @@ return(
 )
 }
 
-function MoviesAdd(){
-  const [name,setName] = useState("")
-  return(
-    <div>
-      <TextField
-       onChange={(event)=>setName(event.target.value)} label="name" variant="standard" />
-      <TextField label="poster" variant="standard" />
-      <TextField label="rating" variant="standard" />
-      <TextField label="summary" variant="standard" />
-    <button onClick={()=> setName([...name,name])}>ADD</button>
-    
-    </div>
-  )
-}
 
 
 

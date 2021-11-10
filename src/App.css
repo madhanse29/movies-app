@@ -27,7 +27,13 @@
   justify-content: space-between;
 }
 
+.Addmovies{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-.color-list{
-  display: ;
+nav{
+  font-size: 28px;
+  
 }

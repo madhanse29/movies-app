@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
 //1.Named imports & export
 //2.default
 export function Counter(){
@@ -9,13 +10,21 @@ export function Counter(){
     const[unlike,setUnlike]=useState(0);
     return(
       <div className="counter-container">
-        <button className="likes" onClick={()=>{
+<IconButton aria-label="like" color="primary"
+className="likes" onClick={()=>{
           setLike(like+1)
-        }}>👍{like}</button>
-        <button className="likes" onClick={()=>{
-          setUnlike(unlike+1)
-        }}>👎{unlike}</button>
-        
+        }}>
+        <Badge badgeContent={like} color="primary">
+👍
+</Badge>
+</IconButton>
+<IconButton aria-label="unlike" color="error"
+onClick={()=>{
+  setUnlike(unlike+1)
+}}><Badge badgeContent={unlike} color="error">
+👎
+</Badge>      
+</IconButton>
       </div>
     )
   }
