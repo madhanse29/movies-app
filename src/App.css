@@ -5,6 +5,9 @@
   justify-content: space-around;
 }
 
+.App{
+  font-family: 'Roboto', sans-serif;
+}
 
 .profpic{
   height:500px ;
@@ -35,5 +38,6 @@
 
 nav{
   font-size: 28px;
-  
+  display: flex;
+  gap: 20px;
 }

@@ -51,8 +51,8 @@ const[movies,setMovies]=useState(INTIAL_MOVIES)
 <Switch>
   <Route path="/movies">
   <div className="App1">
-     {movies.map((nm)=>(<Msg name={nm.name}
-      pic={nm.pic} rating={nm.rating} summary={nm.summary}/>))}
+     {movies.map((nm,index)=>(<Msg name={nm.name}
+      pic={nm.pic} rating={nm.rating} summary={nm.summary} key={index}/>))}
    {/* <AddColor /> */}
    </div>
   </Route>
@@ -62,7 +62,8 @@ const[movies,setMovies]=useState(INTIAL_MOVIES)
   <Route path="/colorgame">
     <AddColor/>
   </Route>
-  <Route path="/">Welcome </Route>
+  <Route path="/">
+    <Welcome/> </Route>
   </Switch>
    </div>
    
@@ -70,6 +71,11 @@ const[movies,setMovies]=useState(INTIAL_MOVIES)
   );
 }
 
+function Welcome(){
+  return(
+    <h3>Welcome to movie</h3>
+  )
+}
 function AddMovie({movies,setMovies}){
   const[name,setName]=useState("")
 const[pic,setPic]=useState("")
