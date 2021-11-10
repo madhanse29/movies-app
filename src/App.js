@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link ,Redirect } from "react-router-dom";
 import './App.css';
 import {Counter } from "./counter"
 import Button from '@mui/material/Button';
@@ -10,12 +10,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 
+
 function App() {
   
   const INTIAL_MOVIES=[
     
  {name: "The Godfather",
-  pic:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvhBjZEsw78Uakd3XwKXs-16xmFpTPvCAFQ&usqp=CAU",
+  pic:"https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
  rating:9.2 ,summary:"The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son."},
  {name: "Into The Wild ",
   pic:"http://assets.nflxext.com/us/boxshots/hd1080/70075064.jpg",
@@ -48,12 +49,13 @@ const[movies,setMovies]=useState(INTIAL_MOVIES)
 <Link to= "/colorgame">Color games</Link>
 </nav>
 <Switch>
+<Route exact path="/">
+    <Welcome/> </Route>
+    <Route path="/films">
+      <Redirect to ="/movies"/>
+</Route>
   <Route path="/movies">
-  <div className="App1">
-     {movies.map((nm,index)=>(<Msg name={nm.name}
-      pic={nm.pic} rating={nm.rating} summary={nm.summary} key={index}/>))}
-   {/* <AddColor /> */}
-   </div>
+  <MovieList movies={movies}/>
   </Route>
   <Route path="/addmovies">
   <AddMovie movies={movies} setMovies={setMovies}/>
@@ -61,8 +63,7 @@ const[movies,setMovies]=useState(INTIAL_MOVIES)
   <Route path="/colorgame">
     <AddColor/>
   </Route>
-  <Route path="/">
-    <Welcome/> </Route>
+ <Route path="**">Not found 404</Route>
   </Switch>
    </div>
    
@@ -75,6 +76,15 @@ function Welcome(){
     <h3>Welcome to movie</h3>
   )
 }
+function MovieList({movies}){
+  return(
+<div className="App1">
+     {movies.map((nm,index)=>(<Msg name={nm.name}
+      pic={nm.pic} rating={nm.rating} summary={nm.summary} key={index}/>))}
+   </div>
+  )
+}
+
 function AddMovie({movies,setMovies}){
   const[name,setName]=useState("")
 const[pic,setPic]=useState("")
@@ -91,16 +101,16 @@ const addMovie=()=>{
 }
   return(
   <div className="Addmovies">
-    <input value={name}
+    <TextField value={name}
       onChange={(event)=>setName(event.target.value)}
-       placeholder="enter movie name"/>
-    <input value={pic}
-      onChange={(event)=>setPic(event.target.value)} placeholder="enter movie poster"/>
-    <input value={rating}
-      onChange={(event)=>setRating(event.target.value)} placeholder="enter movie rating"/>
-    <input value={summary}
-      onChange={(event)=>setSummary(event.target.value)} placeholder="enter movie summary"/>
-    <button onClick={addMovie}>add movie</button>
+       placeholder="enter movie name" variant="standard"/>
+    <TextField value={pic}
+      onChange={(event)=>setPic(event.target.value)} placeholder="enter movie poster" variant="standard"/>
+    <TextField value={rating}
+      onChange={(event)=>setRating(event.target.value)} placeholder="enter movie rating" variant="standard"/>
+    <TextField value={summary}
+      onChange={(event)=>setSummary(event.target.value)} placeholder="enter movie summary" variant="standard"/>
+    <Button  onClick={addMovie} variant="outlined">add movie</Button >
     </div>
   )
 }
