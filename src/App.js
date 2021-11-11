@@ -67,12 +67,13 @@ const[movies,setMovies]=useState(INTIAL_MOVIES)
     <Route path="/films">
       <Redirect to ="/movies"/>
 </Route>
+<Route path="/movies/edit/:id">
+   <MoviesEdits movies={movies} setMovies={setMovies} />
+</Route>
     <Route path="/movies/:id">
    <MoviesDetails movies={movies} setMovies={setMovies} />
 </Route>
-    <Route path="/movies/:name">
-   <MoviesEdits movies={movies} setMovies={setMovies} />
-</Route>
+    
   <Route path="/movies">
   <MovieList movies={movies} setMovies={setMovies}/>
   </Route>
@@ -101,23 +102,60 @@ function MoviesDetails({movies}){
   <p  className = "summary">{movie.summary}</p>
   </div>) 
 }
-function MoviesEdits({movies}){
-  const{name} = useParams();
-  const movie = movies[name]
-  console.log(movie)
-  return(<div className="specs3">
-   <TextField value={movie.name}
-  variant="standard"/>
-    
-  </div>) 
-}
+function MoviesEdits({movies ,setMovies}){
+  const{id} = useParams();
+  const movie = movies[id];
+  console.log(id,movie)
+  const[name,setName]=useState(movie.name)
+  const[pic,setPic]=useState(movie.pic)
+  const[rating,setRating]=useState(movie.rating)
+  const[summary,setSummary]=useState(movie.summary)
+  const[trailer,setTrailer]=useState(movie.trailer)
+  
+  const editMovie=()=>{
+    console.log("adiing",name,pic,rating,summary,trailer);
+    const updateMovie = {
+      name,
+      pic,
+      rating
+      ,summary
+      ,trailer}
+    console.log(updateMovie);
+    // copy movie list & then add new movie
+   // setMovies([...movies,updateMovie]) 
+   //replace the updatemovie in movie list
+  const copyMovie = [...movies];
+  copyMovie[id] = updateMovie;
+  setMovies(copyMovie)
+
+
+  };
+    return(
+    <div className="Addmovies">
+      <TextField value={name}
+        onChange={(event)=>setName(event.target.value)}
+         placeholder="enter movie name" variant="standard"/>
+      <TextField value={pic}
+        onChange={(event)=>setPic(event.target.value)} placeholder="enter movie poster" variant="standard"/>
+      <TextField value={rating}
+        onChange={(event)=>setRating(event.target.value)} placeholder="enter movie rating" variant="standard"/>
+      <TextField value={summary}
+        onChange={(event)=>setSummary(event.target.value)} placeholder="enter movie summary" variant="standard"/>
+      <TextField value={trailer}
+        onChange={(event)=>setTrailer(event.target.value)} placeholder="enter movie trailer url" variant="standard"/>
+      <Button  onClick={editMovie} variant="outlined">save</Button >
+      </div>
+    )
+  }
+  
+
 
 function Welcome(){
   return(
     <h3>Welcome to movie</h3>
   )
 }
-function MovieList({movies , setMovies ,name}){
+function MovieList({movies , setMovies ,id}){
   const history=useHistory();
   return(
 <div className="App1">
@@ -130,7 +168,7 @@ function MovieList({movies , setMovies ,name}){
       id={index}
       editButton={<IconButton  onClick={()=>{
         console.log(nm.name)
-        history.push("/movies/"+ (nm.name))}}
+        history.push("/movies/edit/"+ index)}}
          aria-label="edit" color="secondary"><EditIcon/></IconButton>} 
       deleteButton={
         <IconButton onClick={()=>{
