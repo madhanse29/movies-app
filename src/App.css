@@ -7,6 +7,7 @@
 
 .App{
   font-family: 'Roboto', sans-serif;
+  
 }
 
 .profpic{
@@ -43,4 +44,23 @@ nav{
 }
 a{
   text-decoration: none;
+}
+
+.game-box{
+  background-color: white;
+  color:black;
+  height: 8rem;
+  width: 8rem;
+  font-size: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.board{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  width: min-content;
 }
